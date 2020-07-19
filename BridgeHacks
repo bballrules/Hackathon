@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>No More Excuses</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+  body {
+      font-size: 25px;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.8;
+      background-color:limegreen;
+      color:white;
+  }
+  h1 {
+    font-size: 50px;
+  }
+  .header {
+      background:black;
+      color:gold;
+      padding: 25px;
+  }
+  .container-fluid {
+      padding: 20px;
+  }
+  .pad-t {
+    padding-top: 32px;
+  }
+  .margin-t {
+    margin-top: 25px;
+  }
+  table {
+    width: 100%;
+  }
+  table tr th {
+    padding: 5px;
+    border: 1px solid;
+    background-color:yellow;
+    color:black;
+  }
+  table tr td {
+    padding: 5px;
+    border: 1px solid;
+    background-color:orange;
+    color:black;
+    
+  }
+  </style>
+</head>
+<body id="myPage" data-offset="60">
+  <div class="main">
+    <div class="header text-center">
+      <h1>No More Excuses</h1>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4 pb-2">
+          <label for="calories">Number of calories</label>
+          <input type="text" placeholder="Number of calories to burn" class="form-control" id="calories" aria-describedby="number of calories">
+        </div>
+        <div class="col-md-4">
+          <label for="hours">Number of Minutes</label>
+          <input type="text" placeholder="Number of minutes to workout"  class="form-control" id="hours" aria-describedby="number of hours">
+        </div>
+        <div class="col-md-4 pad-t">
+          <button type="button" onclick="getSteps()" class="btn btn-primary">Get Steps</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <table id="result">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Minutes</th>
+          <th>Calories</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const steps =  [
+        {
+          "c50-h5": {
+            "col_1": "Burpees for 5 minutes",
+            "col_2": "5 mins",
+            "col_3": "50 Cals"
+          },
+          "c100-h5": {
+            "col_1": "40 jumping jacks, 30 situps, 20 squats and 10 push-ups",
+            "col_2": "5 mins",
+            "col_3": "100 Cals"
+          },
+          "c100-h10": {
+            "col_1": "Jump rope 40 seconds then rest 20 seconds and repeat 10 times",
+            "col_2": "10 mins",
+            "col_3": "100 Cals"
+          },
+          "c100-h15": {
+            "col_1": "Run a mile in 15 minutes",
+            "col_2": "15 mins",
+            "col_3": "100 Cals"
+          },
+          "c100-h20": {
+            "col_1": "Walk at a moderate pace or 3.5 mph for 20 min",
+            "col_2": "20 mins",
+            "col_3": "100 Cals"
+          },
+          "c200-h10": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Ub0eQBe54dU",
+            "col_2": "10 mins",
+            "col_3": "200 Cals"
+          },
+          "c200-h15": {
+            "col_1": "Climbing stairs at moderate rate",
+            "col_2": "15 mins",
+            "col_3": "200 Cals"
+          },
+          "c200-h20": {
+            "col_1": "Riding a bike for 20 mins",
+            "col_2": "20 mins",
+            "col_3": "200 Cals"
+          },
+          "c200-h30": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=n0_Qyqhr18k",
+            "col_2": "30 mins",
+            "col_3": "200 Cals"
+          },
+          "c300-10": {
+            "col_1": "squats for 4 mins, take a 1 min break, mountain climbers for 4 mins",
+            "col_2": "10 mins",
+            "col_3": "300 Cals"
+          },
+          "c300-h15": {
+            "col_1": "15 sec sprint and then 15 sec rest for 30 reps",
+            "col_2": "15 mins",
+            "col_3": "300 Cals"
+          },
+          "c300-h30": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=-sICMHs301M",
+            "col_2": "30 mins",
+            "col_3": "300 Cals"
+          },
+          "c300-h35": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=TvSdgw_13oI",
+            "col_2": "35 mins",
+            "col_3": "300 Cals"
+          },
+          "c300-h40": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Ph6WVnQhQps",
+            "col_2": "40 mins",
+            "col_3": "300 Cals"
+          },
+          "c400-h15": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=PAUbr87Qymg",
+            "col_2": "15 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h20": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Dll5oyXn08s",
+            "col_2": "20 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h25": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=1Peg7dByJB4",
+            "col_2": "25 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h30": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=zu-VqRmuEuA",
+            "col_2": "30 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h40": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Qn-EWs8-Yq0",
+            "col_2": "40 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h50": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=vTIqxPiABxI",
+            "col_2": "50 mins",
+            "col_3": "400 Cals"
+          },
+          "c400-h55": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=TGme44jnnhY",
+            "col_2": "55 mins",
+            "col_3": "400 Cals"
+          },
+          "c500-h20": {
+            "col_1": "Skipping rope at a moderate to fast pace for 20 mins with breaks",
+            "col_2": "20 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h25": {
+            "col_1": "Watch and mimc this video https://www.youtube.com/watch?v=aR3gQ-HUVpM",
+            "col_2": "25 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h30": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Mcpyp9PRtU8",
+            "col_2": "30 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h35": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=LeOHID-EDA0",
+            "col_2": "35 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h40": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=Fdux5Ru-j8w",
+            "col_2": "40 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h45": {
+            "col_1": "Watch and mimic video https://www.youtube.com/watch?v=_Zem0_qsDg0",
+            "col_2": "45 mins",
+            "col_3": "500 Cals"
+          },
+          "c500-h60": {
+            "col_1": "Watch and mimic this video https://www.youtube.com/watch?v=RkfnHQ3pHxE",
+            "col_2": "60 mins",
+            "col_3": "500 Cals"
+          },
+        
+        }
+      ];
+
+      function getSteps() {
+        const cal = $('#calories').val();
+        const hour = $('#hours').val();
+        const data = `c${cal}-h${hour}`;
+          $("#result tbody tr").remove();
+          steps.forEach((val) => {
+            const row =  `<tr><td>${val[data].col_1}</td><td>${val[data].col_2}</td><td>${val[data].col_3}</td></tr>`;
+            $("#result tbody").append(row);
+          });
+      }
+  </script>
+
+</body>
+</html>
